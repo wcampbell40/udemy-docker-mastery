@@ -13,7 +13,6 @@
 # then start a new container from your Hub image, and watch how it auto downloads and runs
 # test again that it works at http://localhost
 
-
 # Instructions from the app developer
 # - you should use the 'node' official image, with the alpine 6.x branch
 # - this app listens on port 3000, but the container should launch on port 80
@@ -35,3 +34,18 @@
 # Node Docker Good Defaults sample project on GitHub to change this Dockerfile for 
 # better local development with more advanced topics
 # https://github.com/BretFisher/node-docker-good-defaults
+FROM node:6.10.0-alpine
+
+RUN apk add --updadate tini \
+; mkdir -p /usr/src/ap
+
+WORKDIR /usr/src/app
+
+COPY package.json package.json
+
+RUN npm install && npm cache clean
+
+COPY . . 
+
+CMD ["tini","--","node","./bin/www"]
+EXPOSE 3000
