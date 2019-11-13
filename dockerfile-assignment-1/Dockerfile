@@ -39,6 +39,8 @@ FROM node:6.10.0-alpine
 RUN apk add --updadate tini \
 ; mkdir -p /usr/src/ap
 
+EXPOSE 3000
+
 WORKDIR /usr/src/app
 
 COPY package.json package.json
@@ -48,4 +50,3 @@ RUN npm install && npm cache clean
 COPY . . 
 
 CMD ["tini","--","node","./bin/www"]
-EXPOSE 3000
